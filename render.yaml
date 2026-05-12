@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: budgetly-backend
+    runtime: docker
+    dockerfilePath: com.split.backend/Dockerfile
+    autoDeploy: true
