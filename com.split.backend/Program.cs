@@ -94,13 +94,16 @@ if(connectionString == null) throw new InvalidOperationException("Connection str
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    /*if (builder.Environment.IsProduction())
+    if (builder.Environment.IsDevelopment())
     {
-        options.UseSqlite(connectionString)
+        // Use SQLite for development
+        var sqliteConnection = new SqliteConnection("Data Source=budgetly.db");
+        options.UseSqlite(sqliteConnection)
             .LogTo(Console.WriteLine, LogLevel.Information);
-    }*/
-    if (builder.Environment.IsDevelopment() || builder.Environment.IsProduction())
+    }
+    else if (builder.Environment.IsProduction())
     {
+        // Use MySQL for production
         options.UseMySql(
             connectionString,
             ServerVersion.AutoDetect(connectionString)
