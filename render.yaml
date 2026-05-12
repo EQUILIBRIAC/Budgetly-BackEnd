@@ -4,3 +4,12 @@ services:
     runtime: docker
     dockerfilePath: com.split.backend/Dockerfile
     autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        value: Server=budgetly-mysql-dev.mysql.database.azure.com;Port=3306;Database=budgetly_dev;User Id=adminupc;Password=@Ngelo123;SslMode=Required;
+      - key: TokenSettings__Secret
+        value: rpvmkg05dpkL7bbd20/nRM5hGgV6GCC84DYa7vQ2tIYxx/tCbbHQYoQ3AocsdNHs
+      - key: Database__ResetOnStartup
+        value: "false"
