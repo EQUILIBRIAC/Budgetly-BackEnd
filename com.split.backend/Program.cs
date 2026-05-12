@@ -51,7 +51,6 @@ using IUnitOfWork = com.split.backend.Shared.Domain.Repositories.IUnitOfWork;
 using UnitOfWork = com.split.backend.Shared.Infrastructure.Persistence.EFC.Repositories.UnitOfWork;
 using Microsoft.Data.Sqlite;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using System.Text;
 using com.split.backend.Contributions.Application.Internal.CommandServices;
 using com.split.backend.Contributions.Application.Internal.QueryServices;
 using com.split.backend.Contributions.Domain.Repositories;
@@ -266,8 +265,9 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
+    var resetDatabaseOnStartup = builder.Configuration.GetValue<bool>("Database:ResetOnStartup");
 
-    if (app.Environment.IsDevelopment())
+    if (app.Environment.IsDevelopment() && resetDatabaseOnStartup)
         context.Database.EnsureDeleted();
     
     context.Database.EnsureCreated();
