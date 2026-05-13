@@ -70,7 +70,7 @@ jobs:
           context: .
           file: com.split.backend/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/budgetly-backend:${{ github.sha }}
+          tags: ghcr.io/equilibriac/budgetly-backend:${{ github.sha }}
 
       - name: Trigger Render deploy (optional)
         env:
