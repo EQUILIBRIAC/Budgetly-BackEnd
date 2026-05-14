@@ -59,5 +59,5 @@ public partial class IncomeAllocation
 
         return this;
     }
-    
+
 }
