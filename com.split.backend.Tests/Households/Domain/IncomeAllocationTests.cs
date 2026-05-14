@@ -27,7 +27,7 @@ namespace com.split.backend.Tests.Households.Domain
 
             // Assert
             allocation.Should().NotBeNull();
-            allocation.Id.Should().StartWith("IA-"); // Validamos tu prefijo IA-
+            allocation.Id.Should().StartWith("IA-");
             allocation.UserId.Should().Be(expectedUserId);
             allocation.HouseholdId.Should().Be(expectedHouseholdId);
             allocation.Percentage.Should().Be(expectedPercentage);
@@ -65,7 +65,7 @@ namespace com.split.backend.Tests.Households.Domain
             var allocation = new IncomeAllocation();
 
             // Assert
-            allocation.UserId.Should().Be(-1); // Regla de tu código
+            allocation.UserId.Should().Be(-1);
             allocation.HouseholdId.Should().BeEmpty();
             allocation.Percentage.Should().Be(0);
             allocation.Id.Should().StartWith("IA-");

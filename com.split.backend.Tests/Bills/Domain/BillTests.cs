@@ -16,7 +16,7 @@ namespace com.split.backend.Tests.Bills.Domain
             var expectedHouseholdId = "HH-12345";
             var expectedDescription = "Recibo de Electricidad";
             var expectedAmount = 150.75m;
-            var expectedCreatedBy = 1L; // La 'L' indica que es un tipo long
+            var expectedCreatedBy = 1L;
             var expectedPaymentDate = "2026-05-15";
 
             var command = new CreateBillCommand(
