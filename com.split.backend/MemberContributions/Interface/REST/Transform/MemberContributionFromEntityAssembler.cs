@@ -7,7 +7,20 @@ public static class MemberContributionFromEntityAssembler
 {
     public static MemberContributionResource ToResourceFromEntity(MemberContribution entity)
     {
-        return new MemberContributionResource(entity.Id, entity.ContributionId, entity.MemberId,
-            entity.Amount, entity.Status.ToString(), entity.PayedAt.ToString("MM/dd/yyyy"));
+        return new MemberContributionResource(
+            entity.Id,
+            entity.ContributionId,
+            entity.MemberId,
+            entity.Amount,
+            entity.Status.ToString(),
+            FormatPayedAt(entity.PayedAt));
+    }
+
+    private static string? FormatPayedAt(DateTime payedAt)
+    {
+        if (payedAt == default || payedAt.Year < 1900)
+            return null;
+
+        return payedAt.ToString("MM/dd/yyyy");
     }
 }

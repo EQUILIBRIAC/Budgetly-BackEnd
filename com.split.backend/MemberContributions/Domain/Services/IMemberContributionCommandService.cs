@@ -10,5 +10,6 @@ public interface IMemberContributionCommandService
     public Task<bool> Handle(DeleteMemberContributionCommand command);
     
     public Task<MemberContribution?> Handle(UpdateMemberContributionAmountCommand command);
-    
+
+    public Task<MemberContribution?> Handle(MarkMemberContributionAsPaidCommand command);
 }

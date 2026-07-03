@@ -86,7 +86,10 @@ public class HouseholdMemberController(
             var contributions = await memberContributionRepository.FindByMemberIdAsync(m.Id.ToString());
             var total = contributions.Where(c => c != null).Sum(c => c!.Amount);
             var status = user?.Status == true ? "Active" : "Inactive";
-            var name = user?.PersonName?.FirstName ?? user?.PersonName?.ToString() ?? string.Empty;
+            var name = user?.PersonName?.FirstName;
+            if (string.IsNullOrWhiteSpace(name) && user?.PersonName != null)
+                name = user.PersonName.FullName.Trim();
+            name ??= string.Empty;
             detailed.Add(new MemberDetailedResource(
                 m.Id,
                 m.UserId,

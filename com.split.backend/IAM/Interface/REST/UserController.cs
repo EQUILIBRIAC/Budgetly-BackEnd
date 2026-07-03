@@ -25,7 +25,8 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     {
         var getUserByIdQuery = new GetUsersByIdQuery(id);
         var user = await userQueryService.Handle(getUserByIdQuery);
-        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user!);
+        if (user is null) return NotFound();
+        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
 
@@ -52,17 +53,24 @@ public class UserController(IUserQueryService userQueryService, IUserCommandServ
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var command = new UpdateUserCommand(
-            emailAddress,
-            resource.PersonName,
-            resource.Password
-        );
+        try
+        {
+            var command = new UpdateUserCommand(
+                emailAddress,
+                resource.PersonName,
+                resource.Password
+            );
 
-        var updatedUser = await userCommandService.Handle(command);
-        if (updatedUser == null) return NotFound();
+            var updatedUser = await userCommandService.Handle(command);
+            if (updatedUser == null) return NotFound();
 
-        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(updatedUser);
-        return Ok(userResource);
+            var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(updatedUser);
+            return Ok(userResource);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
 

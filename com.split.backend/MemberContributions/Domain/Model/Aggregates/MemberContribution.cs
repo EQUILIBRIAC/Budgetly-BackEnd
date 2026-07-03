@@ -59,9 +59,27 @@ public partial class MemberContribution
         ContributionSoFar += command.Amount;
         if (ContributionSoFar == command.Amount)
         {
-            PayedAt = DateTime.Now;
+            PayedAt = DateTime.UtcNow;
             Status = EStatus.Done;
         }
+        return this;
+    }
+
+    public MemberContribution MarkAsPaid(decimal? amount = null)
+    {
+        if (amount.HasValue)
+        {
+            if (amount.Value <= 0)
+                throw new ArgumentException("Amount must be greater than zero.");
+            Amount = amount.Value;
+        }
+
+        if (Amount <= 0)
+            throw new ArgumentException("Amount must be greater than zero.");
+
+        ContributionSoFar = Amount;
+        Status = EStatus.Done;
+        PayedAt = DateTime.UtcNow;
         return this;
     }
 }

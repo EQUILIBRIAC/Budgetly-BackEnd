@@ -11,6 +11,8 @@ public class UserRepository(AppDbContext context) : BaseRepository<User>(context
     public async Task<User?> FindByEmailAsync(string email)
     {
         return await Context.Set<User>()
+            .Include(user => user.Email)
+            .Include(user => user.PersonName)
             .Where(user => user.Email.Address == email)
             .FirstOrDefaultAsync();
     }
@@ -22,14 +24,25 @@ public class UserRepository(AppDbContext context) : BaseRepository<User>(context
 
     public async Task<User?> FindByHouseHoldIdAsync(string houseHoldId)
     {
-        return await Context.Set<User>().FirstOrDefaultAsync(user => user.HouseholdId.Equals(houseHoldId));
+        return await Context.Set<User>()
+            .Include(user => user.Email)
+            .Include(user => user.PersonName)
+            .FirstOrDefaultAsync(user => user.HouseholdId.Equals(houseHoldId));
+    }
 
+    public override async Task<User?> FindByIdAsync(int id)
+    {
+        return await Context.Set<User>()
+            .Include(user => user.Email)
+            .Include(user => user.PersonName)
+            .FirstOrDefaultAsync(user => user.Id == id);
     }
 
     public new async Task<IEnumerable<User>> ListAsync()
     {
         return await Context.Set<User>()
             .Include(user => user.Email)
+            .Include(user => user.PersonName)
             .ToListAsync();
     }
 }
