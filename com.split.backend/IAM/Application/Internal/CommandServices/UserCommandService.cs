@@ -108,7 +108,11 @@ public class UserCommandService(
         var user = await userRepository.FindByEmailAsync(command.EmailAddress);
         if (user == null) return null;
 
-        user.UpdateUsername(command.Username);
+        if (!string.IsNullOrWhiteSpace(command.Username))
+            user.UpdateUsername(command.Username);
+
+        if (!string.IsNullOrWhiteSpace(command.Password))
+            user.UpdatePassword(hashingService.HashPassword(command.Password));
         
         userRepository.Update(user);
         

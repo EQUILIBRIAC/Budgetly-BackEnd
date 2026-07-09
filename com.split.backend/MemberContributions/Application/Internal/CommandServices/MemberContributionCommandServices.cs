@@ -44,6 +44,21 @@ public class MemberContributionCommandServices(IMemberContributionRepository mem
         return contribution;
     }
 
+    public async Task<MemberContribution?> Handle(MarkMemberContributionAsPaidCommand command)
+    {
+        var contribution = await memberContributionRepository.FindByStringIdAsync(command.Id);
+        if (contribution == null) return null;
+
+        contribution.MarkAsPaid(command.Amount);
+
+        memberContributionRepository.Update(contribution);
+        await unitOfWork.CompleteAsync();
+
+        await domainEventPublisher.PublishAsync(new MemberContributionUpdatedEvent(contribution.Id));
+
+        return contribution;
+    }
+
     public async Task<bool> Handle(DeleteMemberContributionCommand command)
     {
         var contribution = await memberContributionRepository.FindByStringIdAsync(command.Id);

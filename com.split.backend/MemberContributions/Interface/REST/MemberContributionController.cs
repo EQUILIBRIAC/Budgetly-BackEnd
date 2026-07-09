@@ -80,6 +80,34 @@ public class MemberContributionController(
    
     
 
+    [HttpPut("byId/{id}/mark-paid")]
+    [SwaggerOperation("Mark MemberContribution as paid", OperationId = "MarkMemberContributionAsPaid")]
+    [SwaggerResponse(200, "The MemberContribution was marked as paid", typeof(MemberContributionResource))]
+    [SwaggerResponse(404, "The MemberContribution was not found")]
+    [SwaggerResponse(400, "Invalid amount")]
+    public async Task<IActionResult> MarkMemberContributionAsPaid(
+        [FromRoute] string id,
+        [FromBody] MarkMemberContributionAsPaidResource? resource)
+    {
+        try
+        {
+            var command = new MarkMemberContributionAsPaidCommand(id, resource?.Amount);
+            var contribution = await memberContributionCommandService.Handle(command);
+            if (contribution is null) return NotFound();
+
+            var contributionResource = MemberContributionFromEntityAssembler.ToResourceFromEntity(contribution);
+            return Ok(contributionResource);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     [HttpDelete("{id}")]
     [SwaggerOperation("Delete MemberContribution", OperationId = "DeleteMemberContribution")]
     [SwaggerResponse(200, "The MemberContribution was successfully deleted", typeof(MemberContributionResource))]

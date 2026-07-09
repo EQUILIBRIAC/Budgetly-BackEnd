@@ -34,6 +34,18 @@ public static class ModelBuilderExtensions
 
         builder.Entity<User>().Property(u => u.CreatedDate);
         builder.Entity<User>().Property(u => u.UpdatedDate);
+
+        builder.Entity<User>()
+            .HasOne(u => u.Email)
+            .WithOne(e => e.User)
+            .HasForeignKey<EmailAddress>(e => e.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<User>()
+            .HasOne(u => u.PersonName)
+            .WithOne(p => p.User)
+            .HasForeignKey<PersonName>(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 

@@ -21,7 +21,19 @@ public class IncomeAllocationCommandService(
     {
         if(!houseHoldRepository.ExistsById(command.HouseholdId))
             throw new KeyNotFoundException("Household does not exist");
-        
+
+        var existing = (await incomeAllocationRepository.FindByUserIdAsync(command.UserId))
+            .FirstOrDefault(a => a.HouseholdId == command.HouseholdId);
+
+        if (existing is not null)
+        {
+            existing.Percentage = command.Percentage;
+            existing.UpdatedDate = DateTimeOffset.UtcNow;
+            incomeAllocationRepository.Update(existing);
+            await unitOfWork.CompleteAsync();
+            return existing;
+        }
+
         var incomeAllocation = new IncomeAllocation(command);
         try
         {

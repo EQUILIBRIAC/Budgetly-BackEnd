@@ -20,7 +20,7 @@ public class MemberContributionRepository(AppDbContext context) : BaseRepository
 
    public async Task<IEnumerable<MemberContribution?>> FindByContributionIdAsync(string contributionId)
    {
-      return await Context.Set<MemberContribution>().Where(p => p.Id.Equals(contributionId)).ToListAsync();
+      return await Context.Set<MemberContribution>().Where(p => p.ContributionId.Equals(contributionId)).ToListAsync();
    }
 
    public async Task<IEnumerable<MemberContribution?>> FindByMemberIdAsync(string memberId)

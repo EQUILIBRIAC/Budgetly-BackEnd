@@ -60,7 +60,14 @@ public partial class User
 
     public User UpdateUsername(string username)
     {
-        this.PersonName = new PersonName(username);
+        if (string.IsNullOrWhiteSpace(username))
+            return this;
+
+        if (PersonName is null)
+            PersonName = new PersonName(username);
+        else
+            PersonName.FirstName = username.Trim();
+
         return this;
     }
 
