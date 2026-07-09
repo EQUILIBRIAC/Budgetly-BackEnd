@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.split.backend", "com.split.backend\com.split.backend.csproj", "{CAF104CC-686C-461D-B2E1-AE046DD1667B}"
 EndProject
+
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.split.backend.Tests", "com.split.backend.Tests\com.split.backend.Tests.csproj", "{814446CB-EB65-48AF-8797-289A63104171}"
+
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
